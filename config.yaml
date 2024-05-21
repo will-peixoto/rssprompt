@@ -1,0 +1,19 @@
+rss_url:
+  - "http://rss.cnn.com/rss/cnn_world.rss"
+  - "https://feeds.bbci.co.uk/news/world/rss.xml"
+  - "https://www.noticiasaominuto.com.br/rss/politica"
+  - "https://www.noticiasaominuto.com.br/rss/economia"
+  - "https://www.noticiasaominuto.com.br/rss/ultima-hora"
+delay: 0.05
+published_date_format: "%Y-%m-%d %H:%M:%S"
+colors:
+  feed:
+    count: 95
+    link: 96
+    property_title: 96
+  entry:
+    last_15min: 91
+    last_hour: 92
+    today: 94
+    old: 37
+    default: 93
