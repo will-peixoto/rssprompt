@@ -14,7 +14,7 @@ git clone https://github.com/will-peixoto/rssprompt.git
 cd rssprompt
 cd src
 ```
-Edit the `config.yaml` file with your favorite text editor and put the RSS feed URLs into `rss_url` section.
+Edit `config.yaml` file with your favorite text editor and put the RSS feed URLs into `rss_url` section.
 
 
 ## Run
