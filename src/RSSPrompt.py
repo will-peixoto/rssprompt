@@ -2,6 +2,7 @@
 #pip install pyyaml
 #pip install feedparser
 #pip install colorama
+#pip install lxml
 #------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------- import
@@ -13,6 +14,7 @@ from datetime import datetime, timedelta
 #libs
 import feedparser
 import yaml
+from lxml import html
 import colorama
 from colorama import Fore, Back, Style, ansi
 
@@ -79,9 +81,9 @@ def get_entry_color(entry):
 def validade_feed(rss_url, feed):
 	property_title_color = int(config['colors']['feed']['property_title'])
 	type_out(f"{ansi.code_to_chars(property_title_color)}feed.url:{Style.RESET_ALL} {rss_url}", 0.01)
-	type_out(f"{ansi.code_to_chars(property_title_color)}feed.title:{Style.RESET_ALL} {feed.feed.title}", 0.01)
-	type_out(f"{ansi.code_to_chars(property_title_color)}feed.description:{Style.RESET_ALL} {feed.feed.description}", 0.01)
-	type_out(f"{ansi.code_to_chars(property_title_color)}feed.entries:{Style.RESET_ALL} {len(feed.entries)}", 0.01)
+	type_out(f"{ansi.code_to_chars(property_title_color)}feed.title:{Style.RESET_ALL} {getattr(feed.feed, 'title', '')}", 0.01)
+	type_out(f"{ansi.code_to_chars(property_title_color)}feed.description:{Style.RESET_ALL} {getattr(feed.feed, 'description', '')}", 0.01)
+	type_out(f"{ansi.code_to_chars(property_title_color)}feed.entries:{Style.RESET_ALL} {len(getattr(feed, 'entries', 0))}", 0.01)
 
 	totalEntries = len(feed.entries)
 
@@ -143,7 +145,7 @@ def main():
 					type_out(f"\n{ansi.code_to_chars(get_entry_color(entry))}{Style.BRIGHT}->{Style.RESET_ALL} {str(countEntry).zfill(len(str(len(feed.entries))))}/{len(feed.entries)}|{countTotalEntry} [{getattr(entry, 'published', None)}] {entry.title}")
 										
 					if getattr(entry, 'summary', None) != None:
-						type_out(entry.summary)
+						type_out(html.fromstring(entry.summary).text_content())
 
 	except KeyboardInterrupt:
 		colorama.deinit()

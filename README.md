@@ -6,6 +6,7 @@ A simple Python script to display news from RSS feeds in the command line
 pip install pyyaml
 pip install feedparser
 pip install colorama
+pip install lxml
 git clone https://github.com/will-peixoto/rssprompt.git
 ```
 
