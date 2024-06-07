@@ -80,9 +80,17 @@ def get_entry_color(entry):
 
 def validade_feed(rss_url, feed):
 	property_title_color = int(config['colors']['feed']['property_title'])
+	title = getattr(feed.feed, 'title', '')
+	if len(title) > 0:
+		title = html.fromstring(title).text_content()
+	
+	description = getattr(feed.feed, 'description', '')
+	if len(description) > 0:
+		description = html.fromstring(description).text_content()
+
 	type_out(f"{ansi.code_to_chars(property_title_color)}feed.url:{Style.RESET_ALL} {rss_url}", 0.01)
-	type_out(f"{ansi.code_to_chars(property_title_color)}feed.title:{Style.RESET_ALL} {getattr(feed.feed, 'title', '')}", 0.01)
-	type_out(f"{ansi.code_to_chars(property_title_color)}feed.description:{Style.RESET_ALL} {getattr(feed.feed, 'description', '')}", 0.01)
+	type_out(f"{ansi.code_to_chars(property_title_color)}feed.title:{Style.RESET_ALL} {title}", 0.01)
+	type_out(f"{ansi.code_to_chars(property_title_color)}feed.description:{Style.RESET_ALL} {description}", 0.01)
 	type_out(f"{ansi.code_to_chars(property_title_color)}feed.entries:{Style.RESET_ALL} {len(getattr(feed, 'entries', 0))}", 0.01)
 
 	totalEntries = len(feed.entries)
@@ -144,7 +152,7 @@ def main():
 					countEntry += 1
 					type_out(f"\n{ansi.code_to_chars(get_entry_color(entry))}{Style.BRIGHT}->{Style.RESET_ALL} {str(countEntry).zfill(len(str(len(feed.entries))))}/{len(feed.entries)}|{countTotalEntry} [{getattr(entry, 'published', None)}] {entry.title}")
 										
-					if getattr(entry, 'summary', None) != None:
+					if (getattr(entry, 'summary', None) is not None) and (len(entry.summary) > 0):
 						type_out(html.fromstring(entry.summary).text_content())
 
 	except KeyboardInterrupt:
